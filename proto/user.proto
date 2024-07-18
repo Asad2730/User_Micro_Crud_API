@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "/proto";
+
+service UserService {
+  rpc GetUsers (Empty) returns (Users);
+  rpc GetUser (UserId) returns (User);
+  rpc UpdateUser (User) returns (User);
+  rpc RemoveUser (UserId) returns (Empty);
+  rpc StreamUsers(Empty) returns(stream User); //for pagination purpose
+  
+}
+
+enum Degree {
+    BS = 0;
+    MS = 1;
+    PHD = 2;
+}
+
+message User {
+   string id = 1;
+   string name = 2;
+   string email = 3;
+   Degree degree = 4;
+}
+
+message UserId {
+    string id = 1;
+}
+
+
+message Users {
+   repeated User list = 1;
+}
+
+message Empty{
+
+}
+
+
+
+
+
+
