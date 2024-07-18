@@ -13,6 +13,7 @@ service UserService {
   
 }
 
+
 enum Degree {
     BS = 0;
     MS = 1;
@@ -35,9 +36,9 @@ message Users {
    repeated User list = 1;
 }
 
-message Empty{
+message Empty {}
 
-}
+
 
 
 
