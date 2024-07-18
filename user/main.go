@@ -1,7 +1,9 @@
 package main
 
-import "github.com/Asad2730/User_Micro_Crud_API/user/service"
+import (
+	"github.com/Asad2730/User_Micro_Crud_API/user/services"
+)
 
 func main() {
-	service.RunServer()
+	services.Start()
 }
