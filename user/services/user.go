@@ -15,6 +15,11 @@ import (
 
 type server struct {
 	pb.UnimplementedUserServiceServer
+	addr string
+}
+
+func NewServer(addr string) *server {
+	return &server{addr: addr}
 }
 
 func (s *server) CreateUser(ctx context.Context, user *pb.User) (*pb.User, error) {
@@ -71,16 +76,15 @@ func (s *server) StreamUsers(empty *pb.Empty, stream pb.UserService_StreamUsersS
 	return nil
 }
 
-func Start() {
-	listners, err := net.Listen("tcp", "5001")
+func (s *server) Start() error {
+
+	listners, err := net.Listen("tcp", s.addr)
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	s := grpc.NewServer()
-	pb.RegisterUserServiceServer(s, &server{})
-	fmt.Println("gRPC server is running at :50051")
-	if err := s.Serve(listners); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
+	grpc := grpc.NewServer()
+	pb.RegisterUserServiceServer(grpc, &server{})
+	fmt.Println("gRPC server is running at ", s.addr)
+	return grpc.Serve(listners)
 }
